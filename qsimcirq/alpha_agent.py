@@ -104,14 +104,12 @@ class AlphaAgent:
         best_params = current_params.copy()
         best_score = objective_fn(circuit, current_params)
 
-        # Optimization loop with alpha-beta inspired approach
+        # Optimization loop with alpha bounds
+        alpha = self.options.alpha_init
+        
         for step in range(self.options.optimization_steps):
             # Store previous score for convergence check
             prev_score = best_score
-
-            # Explore parameter space with alpha-beta bounds
-            alpha = self.options.alpha_init
-            beta = self.options.beta_init
 
             # Generate candidate parameter modifications
             for i in range(n_params):
@@ -123,15 +121,15 @@ class AlphaAgent:
                 # Evaluate candidate
                 score = objective_fn(circuit, candidate_params)
 
-                # Alpha-beta pruning logic
+                # Update best if score improved and update alpha bound
                 if score > best_score:
                     best_score = score
                     best_params = candidate_params.copy()
                     current_params = candidate_params.copy()
                     alpha = max(alpha, score)
 
-                # Pruning: if score is worse than beta, skip further exploration
-                if score <= alpha:
+                # Pruning: skip if score is worse than current alpha bound
+                if score <= alpha and best_score > self.options.alpha_init:
                     continue
 
             # Record history
@@ -155,40 +153,27 @@ class AlphaAgent:
         alpha: float = -np.inf,
         beta: float = np.inf,
     ) -> float:
-        """Evaluate circuit using alpha-beta search.
+        """Evaluate circuit quality metric.
 
-        This method implements a minimax-style evaluation with alpha-beta
-        pruning for circuit analysis.
+        This method provides a simple heuristic evaluation of circuit quality
+        based on gate count and qubit usage.
 
         Args:
             circuit: The quantum circuit to evaluate.
-            params: Circuit parameters.
-            depth: Current search depth.
-            alpha: Alpha value for pruning.
-            beta: Beta value for pruning.
+            params: Circuit parameters (reserved for future use).
+            depth: Current search depth (reserved for future use).
+            alpha: Alpha value for pruning (reserved for future use).
+            beta: Beta value for pruning (reserved for future use).
 
         Returns:
             Evaluation score for the circuit.
         """
-        if depth >= self.options.max_depth:
-            # Base case: return a simple metric
-            return float(len(circuit))
-
-        # Recursive evaluation with pruning
-        value = -np.inf
-
-        # Simplified evaluation: circuit depth and gate count
+        # Simple heuristic: ratio of gates to qubits
         gate_count = len(list(circuit.all_operations()))
         qubit_count = len(circuit.all_qubits())
 
-        value = max(value, gate_count / max(qubit_count, 1))
-
-        alpha = max(alpha, value)
-        if beta <= alpha:
-            # Prune
-            return value
-
-        return value
+        # Return normalized score
+        return gate_count / max(qubit_count, 1)
 
     def get_optimization_history(self) -> List[Dict[str, Any]]:
         """Get the history of optimization steps.
