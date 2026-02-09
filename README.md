@@ -14,11 +14,15 @@ higher](https://img.shields.io/badge/Python-3.10+-fcbc2c.svg?style=flat-square&l
 [![Archived in
 Zenodo](https://img.shields.io/badge/10.5281%2Fzenodo.4023103-gray.svg?label=DOI&logo=doi&logoColor=white&style=flat-square&colorA=gray&colorB=3c60b1)](https://doi.org/10.5281/zenodo.4023103)
 
+[Getting Started](#getting-started) &ndash;
 [Features](#features) &ndash;
 [Usage](#usage) &ndash;
+[Examples](#examples) &ndash;
 [Documentation](#documentation) &ndash;
 [Citing qsim](#how-to-cite-qsim) &ndash;
 [Contact](#contact)
+
+**Languages**: [English](README.md) | [Polski](README_PL.md)
 
 </div>
 
@@ -31,6 +35,40 @@ qsim was used to produce landmark cross-entropy benchmark results published
 in 2019 (Arute et al., "Quantum Supremacy Using a Programmable Superconducting
 Processor", [Nature
 vol.&nbsp;574](https://www.nature.com/articles/s41586-019-1666-5), 2019).
+
+## Getting Started
+
+**New to qsim?** Start here:
+
+1. **[Quick Start Guide](QUICKSTART.md)** - Get up and running in minutes
+2. **[Simple Examples](examples/)** - Beginner-friendly code examples:
+   - [basic_circuit.py](examples/basic_circuit.py) - Your first quantum circuit
+   - [bell_state.py](examples/bell_state.py) - Quantum entanglement demo
+   - [quantum_teleportation.py](examples/quantum_teleportation.py) - Advanced protocol
+
+**Installation** (Linux, MacOS, Windows):
+```bash
+pip install qsimcirq
+```
+
+**Your first quantum circuit**:
+```python
+import cirq
+import qsimcirq
+
+# Create a simple Bell state circuit
+q0, q1 = cirq.LineQubit.range(2)
+circuit = cirq.Circuit(
+    cirq.H(q0),
+    cirq.CNOT(q0, q1),
+    cirq.measure(q0, q1, key='result')
+)
+
+# Simulate with qsim
+simulator = qsimcirq.QSimSimulator()
+result = simulator.run(circuit, repetitions=100)
+print(result)
+```
 
 ## Features
 
@@ -108,6 +146,25 @@ of the `qsimcirq` python interface. To run C++ or python tests only, run
 `make run-cxx-tests` or `make run-py-tests`, respectively.
 
 To clean up generated test files, run `make clean` from the test directory
+
+## Examples
+
+The [examples/](examples/) directory contains beginner-friendly Python scripts to help you get started:
+
+| Example | Description | Difficulty |
+|---------|-------------|------------|
+| [basic_circuit.py](examples/basic_circuit.py) | Introduction to quantum circuits, gates, and measurement | Beginner |
+| [bell_state.py](examples/bell_state.py) | Create and verify quantum entanglement with Bell states | Beginner |
+| [quantum_teleportation.py](examples/quantum_teleportation.py) | Implementation of the quantum teleportation protocol | Intermediate |
+
+**Running examples**:
+```bash
+python3 examples/basic_circuit.py
+python3 examples/bell_state.py
+python3 examples/quantum_teleportation.py
+```
+
+For more details, see the [examples README](examples/README.md).
 
 ## Documentation
 
