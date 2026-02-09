@@ -28,3 +28,22 @@ information on using pull requests.
 
 This project follows
 [Google's Open Source Community Guidelines](https://opensource.google/conduct/).
+
+## Contributing Examples
+
+We welcome contributions of new examples to help users learn qsim! When adding examples:
+
+1. **Place examples in the `examples/` directory** - This keeps them organized and discoverable
+2. **Include comprehensive documentation** - Add detailed comments explaining what each part does
+3. **Follow the existing format** - Look at `examples/basic_circuit.py` as a template
+4. **Test your example** - Make sure it runs correctly with `qsimcirq`
+5. **Update the examples README** - Add your example to `examples/README.md`
+
+Good examples should:
+- Be beginner-friendly with clear explanations
+- Demonstrate a specific concept or technique
+- Include educational comments
+- Show expected output or behavior
+- Follow Python best practices
+
+Thank you for helping make qsim more accessible to everyone!
