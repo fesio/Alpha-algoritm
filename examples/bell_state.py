@@ -88,7 +88,11 @@ def main():
     print(f"   Correlated outcomes (|00⟩ + |11⟩): {total_correlated} ({total_correlated/10:.1f}%)")
     print(f"   Uncorrelated outcomes (|01⟩ + |10⟩): {total_uncorrelated} ({total_uncorrelated/10:.1f}%)")
     
-    if total_correlated > 950:  # Allow for small statistical variations
+    # Success threshold: 95% correlation (allows for small statistical variations)
+    CORRELATION_THRESHOLD = 0.95
+    success_threshold = 1000 * CORRELATION_THRESHOLD
+    
+    if total_correlated > success_threshold:
         print("\n   ✓ SUCCESS! The qubits are entangled!")
         print("   Notice: Both qubits always have the same value (both 0 or both 1)")
     else:

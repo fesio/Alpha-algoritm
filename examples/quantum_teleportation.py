@@ -125,7 +125,12 @@ def main():
     print("   When measured, |+⟩ gives |0⟩ or |1⟩ with equal probability (50/50)")
     print()
     
-    if abs(zeros - ones) < 20:  # Allow for statistical variation
+    # Success criteria: difference should be within 20% of total repetitions
+    # for a fair 50/50 distribution (allows for statistical variation)
+    TOLERANCE_FRACTION = 0.20
+    max_difference = 100 * TOLERANCE_FRACTION
+    
+    if abs(zeros - ones) < max_difference:
         print("   ✓ SUCCESS! The state was teleported correctly!")
         print("   Bob's measurements match the expected distribution for |+⟩")
     else:
